@@ -7,5 +7,6 @@ export function calculateSplit(extractedData) {
   
   const serviceCharge = extractedData.service_charge || 0;
   const tax = extractedData.tax || 0;
-  return { computedSubtotal, serviceCharge, tax };
+  const discount = extractedData.discount || 0;
+  return { computedSubtotal, serviceCharge, tax, discount };
 }
