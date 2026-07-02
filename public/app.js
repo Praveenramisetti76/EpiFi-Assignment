@@ -1,1 +1,1 @@
-console.log('uploader active');
+console.log('canvas drawer active');
