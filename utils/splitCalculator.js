@@ -1,4 +1,8 @@
 export function calculateSplit(extractedData) {
-  // Skeleton
-  return {};
+  const flags = [];
+  const assumptions = [];
+  const items = extractedData.items || [];
+  let computedSubtotal = 0;
+  items.forEach(item => { computedSubtotal += item.total_price; });
+  return { computedSubtotal };
 }
