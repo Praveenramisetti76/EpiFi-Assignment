@@ -1,4 +1,4 @@
 export async function extractReceiptData(base64Image, description) {
-  const schema = { type: "OBJECT" };
+  const cleanBase64 = base64Image;
   return {};
 }
