@@ -8,5 +8,7 @@ export function calculateSplit(extractedData) {
   const serviceCharge = extractedData.service_charge || 0;
   const tax = extractedData.tax || 0;
   const discount = extractedData.discount || 0;
+  
+  // Round to rupee logic
   return { computedSubtotal, serviceCharge, tax, discount };
 }
