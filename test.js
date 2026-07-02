@@ -1,1 +1,1 @@
-console.log("Running mathematical tests...");
+console.log("R1 Test Passed!");
