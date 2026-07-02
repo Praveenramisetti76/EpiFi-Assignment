@@ -1,4 +1,4 @@
 export function calculateSplit(extractedData) {
-  // Paise absorption placeholder logic
+  // Settle up placeholder
   return {};
 }
