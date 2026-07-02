@@ -6,6 +6,6 @@ export function calculateSplit(extractedData) {
   items.forEach(item => { computedSubtotal += item.total_price; });
   
   const serviceCharge = extractedData.service_charge || 0;
-  // Service charge logic
-  return { computedSubtotal, serviceCharge };
+  const tax = extractedData.tax || 0;
+  return { computedSubtotal, serviceCharge, tax };
 }
