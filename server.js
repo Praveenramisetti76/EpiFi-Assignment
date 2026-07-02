@@ -1,5 +1,7 @@
 import express from 'express';
-import path from 'path';
 const app = express();
-app.use(express.static('public'));
+app.use(express.json());
+app.post('/api/split', (req, res) => {
+  res.json({ message: "Split outline" });
+});
 app.listen(3000);
