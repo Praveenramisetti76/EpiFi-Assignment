@@ -1,1 +1,198 @@
-<html><body><h1>Fair Split</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fair Split — AI-Powered Bill Splitter</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Vanilla CSS Link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glow-bg"></div>
+  
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <svg class="logo-svg" viewBox="0 0 32 32" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#06b6d4" />
+            </linearGradient>
+          </defs>
+          <path d="M6 2 L26 2 A2 2 0 0 1 28 4 L28 28 L24 26 L20 28 L16 26 L12 28 L8 26 L4 28 L4 4 A2 2 0 0 1 6 2 Z" fill="url(#logo-grad)" />
+          <path d="M10 10 L22 10 M10 15 L22 15 M10 20 L18 20" stroke="#090d16" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+        <span>Fair Split</span>
+      </div>
+      <p class="tagline">Upload a bill, describe the split in plain English, and get a reconciled per-person breakdown.</p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-grid">
+      <!-- Left Column: Input Form -->
+      <section class="card input-card">
+        <h2 class="card-title"><i class="ph-bold ph-pencil-line" style="display: none;"></i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="title-svg-icon"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg> Split Input</h2>
+        
+        <form id="split-form">
+          <!-- Step 1: Upload Receipt -->
+          <div class="form-group">
+            <label class="form-label">1. Receipt Image</label>
+            <div id="drop-zone" class="drop-zone">
+              <img src="/images/upload_scan.png" alt="Scan Receipt" class="upload-image-asset">
+              <p class="upload-text">Drag & drop your receipt, or <span class="browse-link">browse</span></p>
+              <p class="upload-subtext">Supports PNG, JPG, JPEG, WEBP</p>
+              <input type="file" id="file-input" accept="image/*" style="display: none;">
+            </div>
+            <!-- Image Preview Panel -->
+            <div id="preview-container" class="preview-container" style="display: none;">
+              <img id="image-preview" src="" alt="Receipt Preview">
+              <button type="button" id="remove-image" class="btn-icon-danger" title="Remove Image">
+                <i class="ph-bold ph-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Description -->
+          <div class="form-group">
+            <div class="label-wrapper">
+              <label class="form-label">2. Who had what?</label>
+              <span class="label-tip">Name the items, people, and who paid</span>
+            </div>
+            <textarea id="description-input" class="description-input" placeholder="e.g., Aman skipped drinks. Priya and I shared the pasta. The cheesecake was Karan's. Everything else was common to all four of us. Priya paid."></textarea>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="form-group">
+            <label class="form-label-small">Or try a Sample Preset (R1 - R4):</label>
+            <div class="presets-grid">
+              <button type="button" class="preset-btn" data-preset="R1">
+                <strong>R1</strong>: Brew & Bite
+              </button>
+              <button type="button" class="preset-btn" data-preset="R2">
+                <strong>R2</strong>: Tamarind Kitchen
+              </button>
+              <button type="button" class="preset-btn" data-preset="R3">
+                <strong>R3</strong>: Daily Grind
+              </button>
+              <button type="button" class="preset-btn" data-preset="R4">
+                <strong>R4</strong>: Spice Route
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span class="btn-text">Compute Fair Split</span>
+            <i class="ph-bold ph-sparkle"></i>
+          </button>
+        </form>
+      </section>
+
+      <!-- Right Column: Results Dashboard -->
+      <section class="card output-card">
+        <h2 class="card-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="title-svg-icon"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Reconciled Split</h2>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state">
+          <img src="/images/empty_state.png" alt="Awaiting Input" class="empty-state-image-asset">
+          <h3>Awaiting Input</h3>
+          <p>Provide a receipt image and consumption description, then click "Compute Fair Split" to generate the breakdown.</p>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-state" style="display: none;">
+          <div class="spinner"></div>
+          <h3>Analyzing Bill with AI...</h3>
+          <p>Reading items, taxes, matching people, and calculating fair shares.</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="error-state" style="display: none;">
+          <i class="ph-bold ph-warning-circle error-icon"></i>
+          <h3>Calculation Failed</h3>
+          <p id="error-message">Something went wrong. Please check your API key or input and try again.</p>
+        </div>
+
+        <!-- Result State -->
+        <div id="result-state" class="result-state" style="display: none;">
+          <!-- Highlight Stats Row -->
+          <div class="stats-row">
+            <div class="stat-card">
+              <span class="stat-label">Grand Total</span>
+              <span id="result-grand-total" class="stat-val">₹0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Paid By</span>
+              <span id="result-payer" class="stat-val font-accent">-</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Reconciliation</span>
+              <span id="result-reconciliation-badge" class="badge badge-success">Reconciled</span>
+            </div>
+          </div>
+
+          <!-- Per-person Breakdown Table -->
+          <div class="section-container">
+            <h4 class="section-subtitle"><i class="ph-bold ph-users-three"></i> Individual Share Breakdown</h4>
+            <div class="table-responsive">
+              <table id="split-table" class="split-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Items Consumed</th>
+                    <th>Subtotal</th>
+                    <th>Tax</th>
+                    <th>Service</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="split-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Settle Up Transactions -->
+          <div class="section-container">
+            <h4 class="section-subtitle"><i class="ph-bold ph-handshake"></i> Settle Up Checklist</h4>
+            <ul id="settle-up-list" class="settle-up-list">
+              <!-- Injected via JavaScript -->
+            </ul>
+          </div>
+
+          <!-- Assumptions -->
+          <div class="section-container">
+            <h4 class="section-subtitle"><i class="ph-bold ph-lightbulb"></i> Calculations & Assumptions</h4>
+            <ul id="assumptions-list" class="bullets-list">
+              <!-- Injected via JavaScript -->
+            </ul>
+          </div>
+
+          <!-- Warnings & Flags -->
+          <div id="flags-section" class="section-container" style="display: none;">
+            <h4 class="section-subtitle warning-color"><i class="ph-bold ph-warning"></i> Flags & Discrepancies</h4>
+            <ul id="flags-list" class="bullets-list-warning">
+              <!-- Injected via JavaScript -->
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <p>Fair Split &copy; 2026. Built with raw JS & CSS. Powered by Google Gemini.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
