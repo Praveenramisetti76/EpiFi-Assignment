@@ -28,6 +28,10 @@ Express Backend Server (server.js)
 Client (Web UI / Custom client POST) <-- Returns fully reconciled JSON payload
 ```
 
+<img width="1502" height="945" alt="image" src="https://github.com/user-attachments/assets/f680931f-9a51-4363-9f36-c78ff7885d24" />
+<img width="1465" height="936" alt="image" src="https://github.com/user-attachments/assets/b911d446-20da-4f90-ad3a-698b8a2f0397" />
+<img width="1885" height="1062" alt="image" src="https://github.com/user-attachments/assets/295fffba-e607-4167-a8b8-1ff02cfc662f" />
+
 * **Frontend**: Vanilla HTML5, CSS3, and JavaScript. Styled with a premium glassmorphic dark-mode theme, utilizing custom vector SVG icons and generated scanned-receipt illustrations to avoid an "AI-generated template" appearance.
 * **Backend**: Node.js + Express. Exposes the required POST `/api/split` JSON endpoint.
 * **AI Extraction**: Integrated with the official `@google/genai` Node.js SDK using `gemini-2.5-flash` with a strict OpenAPI schema enforcement.
@@ -78,7 +82,7 @@ We built an interface designed to impress:
 
 ---
 
-## 🔌 API Contract
+## API Contract
 
 ### Request Shape
 `POST /api/split` (Content-Type: `application/json`)
@@ -122,7 +126,7 @@ We built an interface designed to impress:
 
 ---
 
-## 🏃 Running Locally
+##  Run Guide :
 
 ### 1. Prerequisite Setup
 Configure your environment variables in the [.env](file:///c:/Users/LENOVO/OneDrive/Desktop/Epifi/.env) file:
@@ -148,3 +152,13 @@ Execute the mathematical validation runner to assert calculation precision again
 ```bash
 node test.js
 ```
+##  Acknowledgements
+
+I would like to express my sincere gratitude to the **Epifi Team** for providing this opportunity and creating an inspiring environment to learn and build.
+
+A special thanks to all the **developers and mentors** for their guidance, support, and valuable feedback throughout the process. Your insights helped me improve both technically and professionally.
+
+This experience has been incredibly enriching, and I truly appreciate the effort put in by the team to make this journey meaningful.
+
+— **Praveen**
+
